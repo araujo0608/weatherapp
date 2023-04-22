@@ -1,7 +1,5 @@
 # Weather App
 
-## API Docs references
+## API docs references
 
-- https://openweathermap.org/current
-- https://openweathermap.org/current#geocoding
-- https://openweathermap.org/api/hourly-forecast
+- https://www.weatherapi.com/docs/#intro-request

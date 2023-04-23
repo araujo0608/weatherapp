@@ -12,7 +12,7 @@ export default function App() {
       <NavigationContainer>
         <Tab.Navigator
           screenOptions={{
-            tabBarShowLabel: false
+            tabBarShowLabel: false,
           }} 
         >
           <Tab.Screen name="Home" component={Home}/>

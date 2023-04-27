@@ -5,7 +5,7 @@ import {
   getCurrentPositionAsync,
 } from 'expo-location';
 import { Modal, View, Text, Pressable } from 'react-native';
-
+navigator.geolocation = require('@react-native-community/geolocation');
 
 
 export default function App() {
@@ -26,11 +26,11 @@ export default function App() {
       visbible={true}
       transparent={true}
       >
-      <Pressable onPress={() => setAsk(!ask)} style={{backgroundColor: 'gray', padding: 1, flex: 1}}>
-        <Text>
-          Permission to access location was denied
-        </Text>
-      </Pressable>
+        <Pressable onPress={() => setAsk(!ask)} style={{backgroundColor: 'gray', padding: 1, flex: 1}}>
+          <Text>
+            Permission to access location was denied
+          </Text>
+        </Pressable>
       </Modal>
       </View>
     );

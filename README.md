@@ -7,5 +7,5 @@
 
 ## Tasks
     [x] arrumar botão de procurar
+    [x] obter as coordenadas (OpenWeatherAPI) e jogar na outra API para obter o timezone
     [] programar api do previsão pros próximos dias
-    [] converter timezones

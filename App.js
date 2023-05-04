@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TextInput, Text, StyleSheet, SafeAreaView, Button } from "react-native";
+import { TextInput, Text, StyleSheet, SafeAreaView, Button, View } from "react-native";
 import API from "./infos";
 
 export default function App(){
@@ -18,26 +18,40 @@ export default function App(){
   async function findLocation(city){
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=pt_br&appid=${API.openweather.key}&units=metric`
     
-    try {
+    try { //request Open API
       const response = await fetch(url);
       const datas = await response.json();
-      setCurrents({
-        city: datas.name,
-        temp: datas.main.temp,
-        cond: datas.weather[0].description,
-        timezone: convertTimezone(datas.timezone)
-      });
+      const coords = {
+        long: datas.coord.lon,
+        lat: datas.coord.lat
+      }
+      
+      try { // request weatherapi
+        const weatherapi_url = `http://api.weatherapi.com/v1/current.json?key=${API.weatherapi.key}&q=${coords.lat},${coords.long}&aqi=no`
+        const weatherapi_response = await fetch(weatherapi_url);
+        const weatherapi_datas = await weatherapi_response.json();
+        let formatted_timezone = getFormattedLocalTime(weatherapi_datas.location.localtime);
+
+        setCurrents({
+          city: datas.name,
+          temp: datas.main.temp,
+          cond: datas.weather[0].description,
+          timezone: formatted_timezone
+        });
+      } catch (error) {
+        console.debug(`WEATHER API ERROR -> ${error}`);
+      }
+
+     
     } catch (error) {
-      console.debug(`API ERROR -> ${error}`);
+      console.debug(`OPENWEATHER API ERROR -> ${error}`);
     }
   }
 
-  function convertTimezone(timezone){
-    const dateUTC = new Date('2023-05-01T12:00:00Z');
-    const timezoneOffset = new Date().getTimezoneOffset() * 60 * 1000; // miliseconds
-    const offset = timezone - 1000;
-    const dateLocal = new Date(dateUTC.getTime() + timezoneOffset + offset);
-    return String(dateLocal);
+  function getFormattedLocalTime(unformatted){
+    const splitted = String(unformatted).split(' '); 
+    const formatted = splitted[1].split(':').join('h');
+    return String(formatted);
   }
 
 
@@ -60,6 +74,10 @@ export default function App(){
       <Text>Condição: {currents.cond}</Text>
       <Text>Horario: {currents.timezone}</Text>
 
+      <View style={styles.forecast}>
+        <Text>Next days...</Text>
+      </View>
+
     </SafeAreaView>
   );
 }
@@ -78,5 +96,11 @@ const styles = StyleSheet.create({
     width: 200,
     borderWidth: 3, 
     borderRadius: 5
+  },
+  forecast:{
+    backgroundColor: 'red',
+    marginTop: 5,
+    width: 300,
+    height: 300
   }
 })

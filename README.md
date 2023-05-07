@@ -9,3 +9,4 @@
     [x] arrumar botão de procurar
     [x] obter as coordenadas (OpenWeatherAPI) e jogar na outra API para obter o timezone
     [] programar api do previsão pros próximos dias
+        [] - setar os dados da API no state e achar uma forma de renderizar na tela

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { TextInput, Text, StyleSheet, SafeAreaView, Button, View } from "react-native";
 import API from "./infos";
+import moment from "moment";
 
 export default function App(){
-
 
   // == States ==
   const [query, setQuery] = useState('Miami');
@@ -13,6 +13,7 @@ export default function App(){
     cond: 'Ensolarado',
     timezone: '12h00'
   });
+  const [weatherForecast, setWeatherForecast] = useState([]);
  
   // == Functions == 
   async function findLocation(city){
@@ -38,6 +39,9 @@ export default function App(){
           cond: datas.weather[0].description,
           timezone: formatted_timezone
         });
+
+        forecastFrom(datas.name);
+
       } catch (error) {
         console.debug(`WEATHER API ERROR -> ${error}`);
       }
@@ -48,10 +52,45 @@ export default function App(){
     }
   }
 
+  async function forecastFrom(city){
+    const url = `http://api.weatherapi.com/v1/forecast.json?key=d0a34f1fdda74dce95a141845231904&q=${city}&days=4&aqi=no&alerts=no`;
+        
+    try {
+        const response = await fetch(url);
+        const datas = await response.json();
+
+        const forecastData = datas.forecast.forecastday.map((day) => {
+          return {
+            dayOfWeek: getFullDayOfTheWeekInPortuguese(day.date),
+            temp: day.day.avgtemp_c,
+          };
+        });
+        
+        setWeatherForecast(forecastData);
+
+    } catch (error) {
+        console.debug(`WEATHER API FORECAST ERROR -> ${error}`);
+    }
+  }
+
   function getFormattedLocalTime(unformatted){
     const splitted = String(unformatted).split(' '); 
     const formatted = splitted[1].split(':').join('h');
     return String(formatted);
+  }
+
+  function getFullDayOfTheWeekInPortuguese(date){
+    const portuguese_weekdays = new Array(
+      'Domingo', 
+      'Segunda-feira',
+      'Terça-feira',
+      'Quarta-feira',
+      'Quinta-feira',
+      'Sexta-feira',
+      'Sábado'
+    );
+    const api_date = moment(date, "YYYY-MM-DD", "pt", true);
+    return String(portuguese_weekdays[api_date.get('day')]);
   }
 
 
@@ -75,7 +114,13 @@ export default function App(){
       <Text>Horario: {currents.timezone}</Text>
 
       <View style={styles.forecast}>
-        <Text>Next days...</Text>
+        {
+         weatherForecast.map((day, index) => (
+          <View key={index} style={{flexDirection: 'row'}}>
+            <Text>{day.dayOfWeek} </Text>
+            <Text>{day.temp}</Text>
+          </View>
+        ))}
       </View>
 
     </SafeAreaView>
@@ -104,3 +149,4 @@ const styles = StyleSheet.create({
     height: 300
   }
 })
+

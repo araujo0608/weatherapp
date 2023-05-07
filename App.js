@@ -17,7 +17,8 @@ export default function App(){
  
   // == Functions == 
   async function findLocation(local){
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${local}&lang=pt_br&appid=${API.openweather.key}&units=metric`
+    const city = getFormattedInputText(local);
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=pt_br&appid=${API.openweather.key}&units=metric`
     
     try { //request Open API
       const response = await fetch(url);
@@ -91,6 +92,12 @@ export default function App(){
     );
     const api_date = moment(date, "YYYY-MM-DD", "pt", true);
     return String(portuguese_weekdays[api_date.get('day')]);
+  }
+  
+  function getFormattedInputText(text){
+    text = String(text).trim();
+    text = text.replace(/^\d+|[^a-zA-ZÀ-ÿ ]/g, '');
+    return text;
   }
 
 

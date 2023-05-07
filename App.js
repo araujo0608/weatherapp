@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { TextInput, Text, StyleSheet, SafeAreaView, Button, View } from "react-native";
-import API from "./infos";
+import { TextInput, Text, StyleSheet, SafeAreaView, Button, View, Pressable, Keyboard } from "react-native";
+import API from "./api";
 import moment from "moment";
 
 export default function App(){
@@ -16,8 +16,8 @@ export default function App(){
   const [weatherForecast, setWeatherForecast] = useState([]);
  
   // == Functions == 
-  async function findLocation(city){
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=pt_br&appid=${API.openweather.key}&units=metric`
+  async function findLocation(local){
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${local}&lang=pt_br&appid=${API.openweather.key}&units=metric`
     
     try { //request Open API
       const response = await fetch(url);
@@ -100,30 +100,33 @@ export default function App(){
   }, [])
 
   return(
-    <SafeAreaView style={styles.container}>
-      <TextInput style={styles.search}
-        placeholder='Miami'
-        value={query}
-        onChangeText={text => setQuery(text)}
-      />
-      <Button title="procurar" onPress={() => findLocation(query)}/>
+    
+    <Pressable style={styles.container} onPress={Keyboard.dismiss}>
+        
+        <TextInput style={styles.search}
+          placeholder='Miami'
+          value={query}
+          onChangeText={text => setQuery(text)}
+        />
+        <Button title="procurar" onPress={() => findLocation(query)}/>
 
-      <Text>Nome: {currents.city}</Text>
-      <Text>Temperatura: {currents.temp}</Text>
-      <Text>Condição: {currents.cond}</Text>
-      <Text>Horario: {currents.timezone}</Text>
+        <Text>Nome: {currents.city}</Text>
+        <Text>Temperatura: {currents.temp}</Text>
+        <Text>Condição: {currents.cond}</Text>
+        <Text>Horario: {currents.timezone}</Text>
 
-      <View style={styles.forecast}>
-        {
-         weatherForecast.map((day, index) => (
-          <View key={index} style={{flexDirection: 'row'}}>
-            <Text>{day.dayOfWeek} </Text>
-            <Text>{day.temp}</Text>
-          </View>
-        ))}
-      </View>
-
-    </SafeAreaView>
+        <View style={styles.forecast}>
+          {
+          weatherForecast.map((day, index) => (
+            <View key={index} style={{flexDirection: 'row'}}>
+              <Text>{day.dayOfWeek} </Text>
+              <Text>{day.temp}</Text>
+            </View>
+          ))}
+        </View>
+      
+    </Pressable>
+    
   );
 }
 

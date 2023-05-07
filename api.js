@@ -19,18 +19,3 @@ const API = {
 
 
 export default API;
-
-/**
- *  const portuguese_weekdays = new Array(
-    'Domingo', 
-    'Segunda-feira',
-    'Terça-feira',
-    'Quarta-feira',
-    'Quinta-feira',
-    'Sexta-feira',
-    'Sábado'
-  );
-
-  const api_date = moment('2023-09-06', "YYYY-MM-DD", "pt", true);
-  console.log(portuguese_weekdays[api_date.get('day')]);
- */

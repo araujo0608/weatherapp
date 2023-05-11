@@ -31,7 +31,7 @@ export default function App(){
         const weatherapi_url = `http://api.weatherapi.com/v1/current.json?key=${API.weatherapi.key}&q=${coords.lat},${coords.long}&aqi=no`
         const weatherapi_response = await fetch(weatherapi_url);
         const weatherapi_datas = await weatherapi_response.json();
-        let formatted_timezone = getFormattedLocalTime(weatherapi_datas.location.localtime);
+        let formatted_timezone = formatLocalTime(weatherapi_datas.location.localtime);
 
         setCurrents({
           city: datas.name,
@@ -61,7 +61,7 @@ export default function App(){
 
         const forecastData = datas.forecast.forecastday.map((day) => {
           return {
-            dayOfWeek: getFullDayOfTheWeekInPortuguese(day.date),
+            dayOfWeek: dayOfTheWeekPortuguese(day.date),
             temp: day.day.avgtemp_c,
           };
         });
@@ -73,13 +73,13 @@ export default function App(){
     }
   }
 
-  function getFormattedLocalTime(unformatted){
+  function formatLocalTime(unformatted){
     const splitted = String(unformatted).split(' '); 
     const formatted = splitted[1].split(':').join('h');
     return String(formatted);
   }
 
-  function getFullDayOfTheWeekInPortuguese(date){
+  function dayOfTheWeekPortuguese(date){
     const portuguese_weekdays = new Array(
       'Domingo', 
       'Segunda-feira',

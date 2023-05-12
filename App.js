@@ -2,8 +2,19 @@ import React, { useEffect, useState } from "react";
 import { TextInput, Text, StyleSheet, SafeAreaView, Button, View, Pressable, Keyboard } from "react-native";
 import API from "./api";
 import moment from "moment";
+import { useFonts, Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
 
 export default function App(){
+
+  // Fonts rules
+  const [fontsLoaded] = useFonts({
+    Inter_400Regular,
+    Inter_500Medium
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   // == States ==
   const [query, setQuery] = useState('Miami');
@@ -18,6 +29,7 @@ export default function App(){
   // == Functions == 
   async function findLocation(local){
     const city = getFormattedInputText(local);
+    Keyboard.dismiss();
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=pt_br&appid=${API.openweather.key}&units=metric`
     
     try { //request Open API
@@ -96,7 +108,7 @@ export default function App(){
   
   function getFormattedInputText(text){
     text = String(text).trim();
-    text = text.replace(/^\d+|[^a-zA-ZÀ-ÿ ]/g, '');
+    text = text.replace(/^[^a-zA-ZÀ-Üà-ü]|[^a-zA-ZÀ-Üà-ü ]/g, '');
     return text;
   }
 
@@ -115,7 +127,9 @@ export default function App(){
           value={query}
           onChangeText={text => setQuery(text)}
         />
-        <Button title="procurar" onPress={() => findLocation(query)}/>
+        <Button title="procurar" onPress={() =>  
+          findLocation(query)}
+          />
 
         <Text>Nome: {currents.city}</Text>
         <Text>Temperatura: {currents.temp}</Text>

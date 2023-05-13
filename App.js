@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { useFonts } from 'expo-font';
 import { TextInput, Text, StyleSheet, SafeAreaView, Button, View, Pressable, Keyboard } from "react-native";
 import API from "./api";
 import moment from "moment";
-import { useFonts, Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
+import { Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
+import * as SplashScreen from 'expo-splash-screen';
+import THEME from "./themes";
+
+//SplashScreen.preventAutoHideAsync();
 
 export default function App(){
-
-  // Fonts rules
-  const [fontsLoaded] = useFonts({
-    Inter_400Regular,
-    Inter_500Medium
-  });
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   // == States ==
   const [query, setQuery] = useState('Miami');
@@ -25,6 +20,16 @@ export default function App(){
     timezone: '12h00'
   });
   const [weatherForecast, setWeatherForecast] = useState([]);
+
+  // Fonts rules
+  const [fontsLoaded] = useFonts({
+    Inter_400Regular,
+    Inter_500Medium
+  });
+
+  if (!fontsLoaded) {
+    console.warn(`FONT DONT lOADED`);
+  }
  
   // == Functions == 
   async function findLocation(local){
@@ -131,9 +136,9 @@ export default function App(){
           findLocation(query)}
           />
 
-        <Text>Nome: {currents.city}</Text>
+        <Text style={{fontFamily: `${THEME.FONT.INTER.MEDIUM}`}}>Nome: {currents.city}</Text>
         <Text>Temperatura: {currents.temp}</Text>
-        <Text>Condição: {currents.cond}</Text>
+        <Text style={{fontFamily: `${THEME.FONT.INTER.REGULAR}`}}>Condição: {currents.cond}</Text>
         <Text>Horario: {currents.timezone}</Text>
 
         <View style={styles.forecast}>
@@ -157,7 +162,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginTop: 50,
-    gap: 2
+    gap: 2,
   },
   search:{
     backgroundColor: '#fff',

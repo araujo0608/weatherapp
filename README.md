@@ -4,6 +4,7 @@
 
 - https://www.weatherapi.com/docs/#intro-request
 - https://openweathermap.org/api
+- https://openweathermap.org/weather-conditions
 
 ## Tasks
 

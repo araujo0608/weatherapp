@@ -136,9 +136,9 @@ export default function App(){
           findLocation(query)}
           />
 
-        <Text style={{fontFamily: `${THEME.FONT.INTER.MEDIUM}`}}>Nome: {currents.city}</Text>
+        <Text>Nome: {currents.city}</Text>
         <Text>Temperatura: {currents.temp}</Text>
-        <Text style={{fontFamily: `${THEME.FONT.INTER.REGULAR}`}}>Condição: {currents.cond}</Text>
+        <Text>Condição: {currents.cond}</Text>
         <Text>Horario: {currents.timezone}</Text>
 
         <View style={styles.forecast}>

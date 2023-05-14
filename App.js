@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useFonts } from 'expo-font';
-import { TextInput, Text, StyleSheet, SafeAreaView, Button, View, Pressable, Keyboard } from "react-native";
+import { 
+  TextInput, Text, StyleSheet, SafeAreaView, Button, View, Pressable, Keyboard 
+} from "react-native";
 import API from "./api";
 import moment from "moment";
 import { Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
-import * as SplashScreen from 'expo-splash-screen';
-import THEME from "./themes";
+import Current from "./src/components/Current";
+import Forecast from "./src/components/Forecast";
 
 //SplashScreen.preventAutoHideAsync();
 
@@ -136,10 +138,7 @@ export default function App(){
           findLocation(query)}
           />
 
-        <Text>Nome: {currents.city}</Text>
-        <Text>Temperatura: {currents.temp}</Text>
-        <Text>Condição: {currents.cond}</Text>
-        <Text>Horario: {currents.timezone}</Text>
+        <Current cur={currents}/>
 
         <View style={styles.forecast}>
           {

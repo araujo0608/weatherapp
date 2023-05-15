@@ -30,7 +30,7 @@ export default function App(){
   });
 
   if (!fontsLoaded) {
-    console.warn(`FONT DONT lOADED`);
+    console.warn(`FONT DONT LOADED`);
   }
  
   // == Functions == 
@@ -141,13 +141,7 @@ export default function App(){
         <Current cur={currents}/>
 
         <View style={styles.forecast}>
-          {
-          weatherForecast.map((day, index) => (
-            <View key={index} style={{flexDirection: 'row'}}>
-              <Text>{day.dayOfWeek} </Text>
-              <Text>{day.temp}</Text>
-            </View>
-          ))}
+          <Forecast fore={weatherForecast}/>
         </View>
       
     </Pressable>

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import styles from './styles';
 
 const Current = (props) => {
-  const currents = useState(props.cur);
+  
+  const currents = props.cur;
 
     return(
       <>

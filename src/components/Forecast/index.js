@@ -1,9 +1,20 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
+import styles from '../Forecast/styles';
 
-const Forecast = () => {
+const Forecast = (props) => {
+    const forecast = props.fore
+
     return(
-      <View></View>
+      <>
+        {
+          forecast.map((day, index) => (
+            <View key={index} style={{flexDirection: 'row'}}>
+              <Text>{day.dayOfWeek} </Text>
+              <Text>{day.temp}</Text>
+            </View>
+        ))}
+      </>
     )
 }
 

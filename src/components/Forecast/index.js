@@ -10,8 +10,8 @@ const Forecast = (props) => {
         {
           forecast.map((day, index) => (
             <View key={index} style={{flexDirection: 'row'}}>
-              <Text>{day.dayOfWeek} </Text>
-              <Text>{day.temp}</Text>
+              <Text style={styles.txt}>{day.dayOfWeek} </Text>
+              <Text>{day.temp}ºC</Text>
             </View>
         ))}
       </>

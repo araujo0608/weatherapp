@@ -19,6 +19,6 @@
 **FRONTEND**   
 
     [x] definição da fonte (Inter ou Roboto)
-    [] ainda falta ver a questão do AppLoading ou SplashScreen
+    [x] ainda falta ver a questão do AppLoading ou SplashScreen
 
 

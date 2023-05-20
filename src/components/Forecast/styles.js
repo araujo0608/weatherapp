@@ -1,7 +1,9 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-    container:{}
+    txt:{
+        fontFamily: 'Inter-Regular'
+    }
 });
 
 export default styles;

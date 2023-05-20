@@ -8,10 +8,10 @@ const Current = (props) => {
 
     return(
       <>
-        <Text>Nome: {currents.city}</Text>
-        <Text>Temperatura: {currents.temp}</Text>
-        <Text>Condição: {currents.cond}</Text>
-        <Text>Horario: {currents.timezone}</Text>
+        <Text style={styles.txtCity}>Nome: {currents.city}</Text>
+        <Text style={styles.txtTemp}>Temperatura: {currents.temp} ºC</Text>
+        <Text style={styles.txtCondition}>Condição: {currents.cond}</Text>
+        <Text style={styles.txtTimezone}>Horario: {currents.timezone}</Text>
       </>
     )
 }

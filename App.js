@@ -1,17 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { useFonts } from 'expo-font';
+import React, { useEffect, useState, useCallback } from "react";
 import { 
-  TextInput, Text, StyleSheet, SafeAreaView, Button, View, Pressable, Keyboard 
+  TextInput, Text, StyleSheet, Button, View, Pressable, Keyboard 
 } from "react-native";
 import API from "./api";
 import moment from "moment";
-import { Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
 import Current from "./src/components/Current";
 import Forecast from "./src/components/Forecast";
 
-//SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync();
 
 export default function App(){
+
+  // == Effects ==
+  useEffect(() => {
+    findLocation(query);
+  }, [])
 
   // == States ==
   const [query, setQuery] = useState('Miami');
@@ -23,14 +28,19 @@ export default function App(){
   });
   const [weatherForecast, setWeatherForecast] = useState([]);
 
-  // Fonts rules
   const [fontsLoaded] = useFonts({
-    Inter_400Regular,
-    Inter_500Medium
+    'Inter-Regular': require('./src/assets/fonts/Inter/static/Inter-Regular.ttf'),
+    'Inter-Medium': require('./src/assets/fonts/Inter/static/Inter-Medium.ttf')
   });
 
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
   if (!fontsLoaded) {
-    console.warn(`FONT DONT LOADED`);
+    return null;
   }
  
   // == Functions == 
@@ -120,14 +130,9 @@ export default function App(){
   }
 
 
-  // == Effects ==
-  useEffect(() => {
-    findLocation(query);
-  }, [])
-
   return(
-    
-    <Pressable style={styles.container} onPress={Keyboard.dismiss}>
+
+      <Pressable style={styles.container} onPress={Keyboard.dismiss} onLayout={onLayoutRootView}>
         
         <TextInput style={styles.search}
           placeholder='Miami'
@@ -144,7 +149,7 @@ export default function App(){
           <Forecast fore={weatherForecast}/>
         </View>
       
-    </Pressable>
+      </Pressable>
     
   );
 }
